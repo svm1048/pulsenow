@@ -89,9 +89,9 @@ function Pricing() {
                 className={`
                   block w-full mt-8 py-3 rounded-full font-bold text-center
                   ${plan.highlighted
-                    ? 'bg-white text-blue-600 hover:bg-gray-100'
-                    : 'bg-blue-600 text-white hover:bg-blue-700'
-                  } transition-colors
+                    ? 'bg-white text-blue-600'
+                    : 'bg-blue-600 text-white'
+                  }
                 `}
               >
                 Get Started
@@ -114,7 +114,7 @@ function Pricing() {
             to="/contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-block bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors"
+            className="inline-block bg-white text-black px-8 py-3 rounded-full font-bold text-lg"
           >
             Contact Us
           </MotionLink>

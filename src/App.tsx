@@ -1,12 +1,34 @@
-import React from 'react';
-import { motion } from 'framer-motion';
+import React, { useState, useEffect } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Zap, Target, Users } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import Navigation from './components/Navigation';
 
 const MotionLink = motion(Link);
 
+const marketingPhrases = [
+  "200% Organic Growth",
+  "10x Social Engagement",
+  "8x Customer Retention",
+  "24/7 Expert Support",
+  "5x Lead Generation",
+  "95% Client Satisfaction",
+  "Global Brand Reach",
+  "Optimized for 5x Efficiency",
+  "50% Faster Deployment"
+];
+
 function App() {
+  const [currentPhraseIndex, setCurrentPhraseIndex] = useState(0);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPhraseIndex((prev) => (prev + 1) % marketingPhrases.length);
+    }, 3000); // Change text every 3 seconds
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div className="min-h-screen bg-black text-white">
       <Navigation />
@@ -29,40 +51,47 @@ function App() {
             initial={{ y: 20, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-5xl md:text-7xl font-bold mb-6"
+            className="text-4xl md:text-7xl font-bold mb-6"
           >
             Transform Your Digital Presence
           </motion.h1>
-          <motion.p
-            initial={{ y: 20, opacity: 0 }}
-            animate={{ y: 0, opacity: 1 }}
-            transition={{ delay: 0.4 }}
-            className="text-2xl md:text-3xl mb-8 gradient-text font-bold"
-          >
-            200% Organic Growth
-          </motion.p>
-          <motion.button
+          <div className="h-12 md:h-16 mb-8"> {/* Fixed height container */}
+            <AnimatePresence mode="wait">
+              <motion.p
+                key={currentPhraseIndex}
+                initial={{ y: 20, opacity: 0 }}
+                animate={{ y: 0, opacity: 1 }}
+                exit={{ y: -20, opacity: 0 }}
+                transition={{ duration: 0.5 }}
+                className="text-xl md:text-3xl gradient-text font-bold"
+              >
+                {marketingPhrases[currentPhraseIndex]}
+              </motion.p>
+            </AnimatePresence>
+          </div>
+          <MotionLink
+            to="/services"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors"
+            className="inline-block bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors"
           >
             Get Started
-          </motion.button>
+          </MotionLink>
         </div>
       </motion.section>
 
       {/* Features Section */}
-      <section className="py-20 bg-gradient-to-b from-black to-gray-900">
+      <section className="py-16 md:py-20 bg-gradient-to-b from-black to-gray-900">
         <div className="container mx-auto px-4">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl font-bold text-center mb-16"
+            className="text-3xl md:text-4xl font-bold text-center mb-12 md:mb-16"
           >
             Why Choose Pulse?
           </motion.h2>
-          <div className="grid md:grid-cols-3 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
             {[
               { 
                 icon: Zap, 
@@ -85,11 +114,11 @@ function App() {
                 initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
                 transition={{ duration: 0.6, delay: index * 0.2 }}
-                className="bg-gray-800 p-6 rounded-lg hover:bg-gray-700 transition-colors"
+                className="bg-gray-800 p-6 md:p-8 rounded-lg hover:bg-gray-700 transition-colors"
               >
-                <feature.icon className="w-12 h-12 mb-4" />
-                <h3 className="text-xl font-bold mb-2">{feature.title}</h3>
-                <p className="text-gray-400">{feature.desc}</p>
+                <feature.icon className="w-10 h-10 md:w-12 md:h-12 mb-4" />
+                <h3 className="text-xl md:text-2xl font-bold mb-2">{feature.title}</h3>
+                <p className="text-gray-400 text-base md:text-lg">{feature.desc}</p>
               </motion.div>
             ))}
           </div>
@@ -97,13 +126,13 @@ function App() {
       </section>
 
       {/* Call to Action Section */}
-      <section className="py-20 bg-gradient-to-b from-gray-900 to-black">
+      <section className="py-16 md:py-20 bg-gradient-to-b from-gray-900 to-black">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
             initial={{ opacity: 0, y: 20 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.6 }}
-            className="text-4xl md:text-5xl font-bold mb-8"
+            className="text-3xl md:text-5xl font-bold mb-6 md:mb-8"
           >
             Ready to Transform Your Business?
           </motion.h2>
@@ -111,7 +140,7 @@ function App() {
             to="/contact"
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            className="inline-block bg-white text-black px-8 py-3 rounded-full font-bold text-lg hover:bg-gray-200 transition-colors"
+            className="inline-block bg-white text-black px-8 py-3 rounded-full font-bold text-lg md:text-xl hover:bg-gray-200 transition-colors"
           >
             Start Your Journey
           </MotionLink>
@@ -119,9 +148,9 @@ function App() {
       </section>
 
       {/* Footer */}
-      <footer className="bg-black py-8 border-t border-gray-800">
+      <footer className="bg-black py-6 md:py-8 border-t border-gray-800">
         <div className="container mx-auto px-4 text-center text-gray-400">
-          <p>&copy; 2024 Pulse Marketing. All rights reserved.</p>
+          <p className="text-sm md:text-base">&copy; 2024 Pulse Marketing. All rights reserved.</p>
         </div>
       </footer>
     </div>
